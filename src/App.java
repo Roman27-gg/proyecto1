@@ -85,8 +85,6 @@ public class App {
             mostrarDatos(input);
             boolean validar = validarSiNo(input, "¿Esta seguro de la validez de los datos? (SI) (NO)");
             if (validar) {
-                System.out.print("Para volver a el menu presione enter ");
-                input.nextLine();
                 break;
             } else if (validar==false) {
                 System.out.println("Digite los datos nuevamente ");
@@ -152,11 +150,11 @@ public class App {
         }
     }
 
-    private static void borrarDatos(Scanner input) {
+    private static boolean borrarDatos(Scanner input) {
         if (datosv == false) {
             System.out.println("No existen datos actuales ");
             System.out.println("Volviendo a el menu...");
-            return;
+            return false;
         }
         boolean validar = validarSiNo(input, "¿Desea borrar todos los datos actuales? (SI) (NO)");
         if (validar) {
@@ -166,14 +164,15 @@ public class App {
             }
             nombre = "";
             System.out.println("Datos borrados con exito");
-            System.out.print("Para volver a el menu presione enter ");
+            System.out.print("Para continuar presione enter ");
             input.nextLine();
             datosv = false;
-        } else if (validar == false) {
-            System.out.println("Datos a salvo volviendo a el menu...");
+            return true;
         } else {
-            System.out.println("Opcion no valida ");
+            System.out.println("Datos a salvo volviendo a el menu...");
+            return false;
         }
+
     }
 
     private static boolean aproboReprobo(double promedio) {
@@ -191,7 +190,10 @@ public class App {
         }
         boolean validar =validarSiNo(input, "¿Desea agregar nuevos datos? se sobreescribiran los datos actuales (SI) (NO)");
         if (validar) {
-            borrarDatos(input);
+            boolean validacion=borrarDatos(input);
+            if (validacion==false) {
+                return;
+            }
             registrarDatos(input);
         }
     }
